@@ -10,6 +10,8 @@ import papagaio from '../assets/papagaio.png';
 import peixe from '../assets/peixe.png';
 import sapo from '../assets/sapo.png';
 
+import colors from '../colors';
+
 export default function Splash({ navigation }){
 
   const [objectsList, setObjectsList] = useState([
@@ -20,6 +22,11 @@ export default function Splash({ navigation }){
     {icon: peixe,     text: "Peixes",        isSelected: false, index: 4},
     {icon: sapo,      text: "Anfíbios",      isSelected: false, index: 5}, 
   ]);
+  const denuncia = navigation.getParam('denuncia', null);
+
+  function prosseguirDenuncia(){
+    navigation.navigate('Map');
+  }
 
   function onPressedItem(item){
     if(!item.isSelected){
@@ -36,6 +43,7 @@ export default function Splash({ navigation }){
 
   return(
     <View style={styles.container}>
+        <Text style={styles.text}>{denuncia.atividadesIlicitas}</Text>
         <View style={styles.body}>
             {objectsList.map((item) => {
 
@@ -93,12 +101,21 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
     alignSelf: 'stretch',
+    paddingHorizontal: 10,
+    paddingVertical: 10,
+    backgroundColor: colors.primaryColor,
   },
   body:{
     flex: 5,
     alignItems: 'center',
     justifyContent: 'center',
     alignSelf: 'stretch',
+    borderWidth: 1,
+    borderColor: colors.primaryDarkColor,
+    borderRadius: 10,
+    marginHorizontal: 10,
+    paddingHorizontal: 10,
+    paddingVertical: 10
   },
   bottomBar:{
       flex: 1,
@@ -116,7 +133,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignSelf: 'stretch',
     marginBottom: 10,
-    backgroundColor: '#00FF00',
+    backgroundColor: colors.primaryDarkColor,
  },
   imageContainer:{
     flex: 1,
@@ -124,7 +141,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   textContainer:{
-      flex: 3,
+      flex: 2,
       justifyContent: 'center',
       alignItems: 'center',
   },
