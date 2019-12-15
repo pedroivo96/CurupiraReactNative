@@ -6,7 +6,7 @@
 ```
                      react-native start
 ```
-Isso irá iniciar a execução do Metro Bundler;
+Isso irá iniciar a execução do Metro Bundler;<br />
 Espere a mensagem `Done` para continuar com o processo;
 
 #### 2. Com o Genymotion aberto e um dispositivo sendo emulado, abra a pasta do projeto, abra outra aba/janela e execute:
