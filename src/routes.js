@@ -4,6 +4,7 @@ import { createStackNavigator } from 'react-navigation-stack';
 import Splash from './pages/Splash';
 import Menu from './pages/Menu';
 import IlicityActivities from './pages/IlicityActivities';
+import Animais from './pages/Animais';
 
 const stackNavigation = createStackNavigator({
     Menu:{
@@ -18,6 +19,12 @@ const stackNavigation = createStackNavigator({
             headerTitle: 'Atividades Ilícitas'
         }
     },
+    Animais:{
+        screen: Animais,
+        navigationOptions:{
+            headerTitle: 'Animais envolvidos'
+        }
+    }
 });
 
 const switchNavigation = createSwitchNavigator({

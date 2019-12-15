@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { View, Image, StyleSheet, FlatList, Text, TouchableOpacity } from 'react-native';
+import AsyncStorage from '@react-native-community/async-storage';
 
 import iconCaca from '../assets/caca.png';
 import iconCativeiro from '../assets/cativeiro.png';
@@ -13,8 +14,20 @@ export default function IlicityActivities({ navigation }){
         {icon: iconCativeiro , text: "Cativeiro"  , isSelected: false, index: 2}
     ]);
 
-    function onPressedItem(item){
+    function checkSelected(){
 
+        isSelected = false;
+
+        objectsList.map((item) => {
+            if(item.isSelected){
+                isSelected = true;
+            }
+        });
+
+        return isSelected;
+    }
+
+    function onPressedItem(item){
         if(!item.isSelected){
             item.isSelected = true;
         }
@@ -28,15 +41,32 @@ export default function IlicityActivities({ navigation }){
     }
 
     function prosseguirDenuncia(){
-        var atividadesIlicitas = "";
 
-        objectsList.map(({ icon, text, isSelected }) => {
-            if(isSelected === true){
-                atividadesIlicitas = atividadesIlicitas.concat(text+",");
+        if(checkSelected()){
+            var atividadesIlicitas = "";
+
+            objectsList.map(({ icon, text, isSelected }) => {
+                if(isSelected === true){
+                    atividadesIlicitas = atividadesIlicitas.concat(text+",");
+                }
+            });
+
+            atividadesIlicitas.slice(0, -1);
+
+            storeData = async () => {
+                try {
+                  await AsyncStorage.setItem('atividadesIlicitas', atividadesIlicitas)
+                } catch (e) {
+                  // saving error
+                  alert('Erro no armazenamento interno');
+                }
+              }
+
+            navigation.navigate('Animais');
             }
-        });
-
-        atividadesIlicitas.slice(0, -1);
+        else{
+            alert("Você deve selecionar ao menos uma opção");
+        }
     }
 
     return(
@@ -50,6 +80,7 @@ export default function IlicityActivities({ navigation }){
                             key={item.index} 
                             style={styles.itemContainer}
                             onPress={() => onPressedItem(item)}>
+
                                 <View style={styles.imageContainer}>
                                     <Image style={styles.image} 
                                     source={item.icon}/>
@@ -67,6 +98,7 @@ export default function IlicityActivities({ navigation }){
                             key={item.index} 
                             style={styles.itemContainerSelected}
                             onPress={() => onPressedItem(item)}>
+
                                 <View style={styles.imageContainer}>
                                     <Image style={styles.image} 
                                     source={item.icon}/>
@@ -127,7 +159,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   textContainer:{
-      flex: 1,
+      flex: 2,
       justifyContent: 'center',
       alignItems: 'center',
   },
